@@ -8,19 +8,49 @@ import ChapterPage from './ChapterPage/ChapterPage';
 
 const FourOhFour = () => <h1>404</h1>;
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <div className="app">
-        <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route path="/search" component={Search} />
-          <Route path="/details/:idBook/:idChapter" component={ChapterPage} />
-          <Route component={FourOhFour} />
-        </Switch>
-      </div>
-    </BrowserRouter>
-  );
-};
+class App extends Component {
+  state = {
+    requestFailed: false,
+    books: [],
+  };
+
+  componentWillMount() {
+    fetch('http://laravel-books/api/books')
+      .then(res => {
+        if (!res.ok) {
+          throw Error('Problem in App fetch');
+        }
+        return res;
+      })
+      .then(res => res.json())
+      .then(
+        res => {
+          this.setState({ books: res.books });
+        },
+        () => {
+          this.setState({
+            requestFailed: true
+          });
+        }
+      );
+  }
+
+  render() {
+    if (this.state.requestFailed) return <p>Failed App loading!</p>;
+    return (
+      <BrowserRouter>
+        <div className="app">
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route path="/search" component={props => <Search books={this.state.books} {...props} />} />
+            <Route path="/details/:idBook/:idChapter" component={ChapterPage} />
+            <Route component={FourOhFour} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
+  }
+
+}
 
 export default App;
