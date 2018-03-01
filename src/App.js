@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 import './App.css';
 
 import Landing from './Landing/Landing';
@@ -11,7 +13,7 @@ const FourOhFour = () => <h1>404</h1>;
 class App extends Component {
   state = {
     requestFailed: false,
-    books: [],
+    books: []
   };
 
   componentWillMount() {
@@ -39,18 +41,19 @@ class App extends Component {
     if (this.state.requestFailed) return <p>Failed App loading!</p>;
     return (
       <BrowserRouter>
-        <div className="app">
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route path="/search" component={props => <Search books={this.state.books} {...props} />} />
-            <Route path="/details/:idBook/:idChapter" component={ChapterPage} />
-            <Route component={FourOhFour} />
-          </Switch>
-        </div>
+        <Provider store={store}>
+          <div className="app">
+            <Switch>
+              <Route exact path="/" component={Landing} />
+              <Route path="/search" component={props => <Search books={this.state.books} {...props} />} />
+              <Route path="/details/:idBook/:idChapter" component={ChapterPage} />
+              <Route component={FourOhFour} />
+            </Switch>
+          </div>
+        </Provider>
       </BrowserRouter>
     );
   }
-
 }
 
 export default App;

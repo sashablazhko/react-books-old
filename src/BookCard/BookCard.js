@@ -20,7 +20,6 @@ const Image = styled.img`
 `;
 
 class BookCard extends Component {
-
   // shouldComponentUpdate() {
   //   return false;
   // }
@@ -42,7 +41,6 @@ class BookCard extends Component {
       </Wrapper>
     );
   }
-
 }
 
 export default BookCard;
