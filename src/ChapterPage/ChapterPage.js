@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { getAPIDetails } from '../actionCreators';
 
@@ -8,33 +9,41 @@ import Spinner from '../Spinner/Spinner';
 class ChapterPage extends Component {
 
   componentDidMount() {
-    if(!this.props.id_chapter) {
-      this.props.getAPIDetails(this.props)
+    if (this.props.chapter){
+      this.props.getAPIData();
     }
   }
 
   render() {
-    if ( !this.props.id_chapter ) return <Spinner />;
-    const { chapter_number, chapter_name, chapter_content, book_id, book_name } = this.props;
+    if ( !this.props.chapter ) return <Spinner />;
+    const { chapter_number, chapter_name, chapter_content, book_id, book_name } = this.props.chapter;
+    // console.log(this.props);
     return (
       <div className="details">
         <Header />
         <section>
           <h1>{book_name}</h1>
           <h2>{chapter_name}</h2>
-          <hr />
+          <hr/>
           <p>{chapter_content}</p>
         </section>
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const apiData = state.apiData[ownProps.chapter.id_chapter] ? state.apiData[ownProps.chapter.id_chapter] : { apiData: '' };
+  const apiData = state.apiData[ownProps.match.params.idChapter] ? state.apiData[ownProps.match.params.idChapter] : {};
+  console.log(ownProps.book);
   return {
-    chapter: apiData.chapter
+    chapter: apiData
   }
 };
 
-export default ChapterPage;
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  getAPIData() {
+    dispatch(getAPIDetails(ownProps.match.params.idBook, ownProps.match.params.idChapter));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChapterPage);

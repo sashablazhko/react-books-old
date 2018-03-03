@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_SEARCH_TERM, ADD_API_DATA } from './actions';
+import { SET_SEARCH_TERM, ADD_API_DATA, ADD_API_BOOKS } from './actions';
 
 const searchTerm = (state='', action) => {
   if(action.type === SET_SEARCH_TERM) {
@@ -15,6 +15,13 @@ const apiData = (state = {}, action) => {
   return state;
 };
 
-const rootReducer = combineReducers({searchTerm, apiData});
+const apiBooks = (state = {}, action) => {
+  if (action.type === ADD_API_BOOKS) {
+    return Object.assign({}, state, { [action.payload.id_book]: action.payload })
+  }
+  return state;
+};
+
+const rootReducer = combineReducers({searchTerm, apiData, apiBooks});
 
 export default rootReducer;
