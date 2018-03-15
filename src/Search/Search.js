@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import BookCard from '../BookCard/BookCard';
 import Header from '../Header/Header';
 
-const Search = (props) => {
+const Search = props => {
   return (
     <div className="search">
       <Header showSearch />
@@ -27,8 +27,7 @@ const Search = (props) => {
 const mapStateToProps = state => {
   return {
     searchTerm: state.searchTerm
-  }
+  };
 };
-
 
 export default connect(mapStateToProps)(Search);

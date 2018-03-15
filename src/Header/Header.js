@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setSearchTerm } from "../actionCreators";
+import { setSearchTerm } from '../actionCreators';
 
 const Header = props => {
   let utilSpace;
   if (props.showSearch) {
     utilSpace = (
-      <input onChange={props.handleSearchTermChange} value={props.searchTerm} type="text" placeholder="Search" />
+      <input onChange={props.handleSearchTermChange} value={props.setSearchTerm} type="text" placeholder="Search" />
     );
   } else {
     utilSpace = (
@@ -27,13 +27,13 @@ const Header = props => {
 };
 
 Header.defaultProps = {
-  showSearch: false,
+  showSearch: false
 };
 
 const mapStateToProps = state => ({ setSearchTerm: state.searchTerm });
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   handleSearchTermChange(event) {
-    dispatch(setSearchTerm(event.target.value))
+    dispatch(setSearchTerm(event.target.value));
   }
 });
 

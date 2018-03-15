@@ -5,21 +5,21 @@ export function setSearchTerm(searchTerm) {
   return { type: SET_SEARCH_TERM, payload: searchTerm };
 }
 
-export function addAPIData(apiData) {
-  return { type: ADD_API_DATA, payload: apiData };
+export function addAPIChapters(apiChapters) {
+  return { type: ADD_API_DATA, payload: apiChapters };
 }
 
-export function getAPIDetails(idBook, idChapter) {
-  return (dispatch) => {
+export function getAPIChapters(idBook, idChapter) {
+  return dispatch => {
     axios
       .get(`http://laravel-books/api/books/${idBook}/${idChapter}`)
       .then(response => {
-        dispatch(addAPIData(response.data.chapter[0]))
+        dispatch(addAPIChapters(response.data.chapter[0]));
       })
       .catch(error => {
         console.log('axios error', error);
-      })
-  }
+      });
+  };
 }
 
 export function addAPIBooks(apiBooks) {
@@ -27,14 +27,14 @@ export function addAPIBooks(apiBooks) {
 }
 
 export function getAPIBooks() {
-  return (dispatch) => {
+  return dispatch => {
     axios
       .get(`http://laravel-books/api/books`)
       .then(response => {
-        dispatch(addAPIBooks(response.data.books))
+        dispatch(addAPIBooks(response.data));
       })
       .catch(error => {
         console.log('axios error', error);
-      })
-  }
+      });
+  };
 }
